@@ -53,7 +53,7 @@ class CarroController extends Controller
             'ano' => 'required|digits:4'
         ]);
 
-        $carro->update($request->validated());
+        $carro->update($request->only(['marca', 'modelo', 'ano']));
         return redirect()->route('carros.index')->with('success', 'Carro atualizado!');
     }
 

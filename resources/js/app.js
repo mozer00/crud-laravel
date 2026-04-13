@@ -1,10 +1,11 @@
-import './bootstrap';
-import { createApp } from 'vue';
+import { createApp } from 'vue'
+import FormularioCarro from './components/FormularioCarro.vue'
+import TabelaCarros from './components/TabelaCarros.vue'
 
-const app = createApp({});
+const app = createApp({})
 
-app.component('hello-world', {
-    template: `<h3>oieeee</h3>`
-});
+app.component('formulario-carro', FormularioCarro)
 
-app.mount('#app');
+app.component('tabela-carros', TabelaCarros)
+
+app.mount('#app')

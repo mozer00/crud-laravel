@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    @include('layouts.head')
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.app')
+
+@section('content')
+
     <div class="container mt-4">
 
         <h2>Detalhes do Carro</h2>
@@ -37,7 +34,4 @@
         </div>
 
     </div>
-<footer>
-</footer>
-</body>
-</html>
+@endsection
