@@ -9,7 +9,7 @@ class CarroController extends Controller
 {
     public function index()
     {
-        $carros = Carro::all();
+        $carros = Carro::paginate(30);
         return view('carros.index', compact('carros'));
     }
 
@@ -22,23 +22,20 @@ class CarroController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'marca' => 'required|max:50',
-            'modelo' => 'required|max:50',
-            'ano' => 'required|digits:4'
-        ]);
+        $request->validate($this->regras());
 
-        Carro::create(
-            $request->only(['marca', 'modelo', 'ano'])
-        );
+        Carro::create($request->only(['marca', 'modelo', 'ano']));
+
         return redirect()->route('carros.index')->with('success', 'Carro adicionado!');
     }
+
 
     public function show(Carro $carro)
     {
         return view('carros.show', compact('carro'));
     }
 
+    
     public function edit(Carro $carro)
     {
         return view('carros.edit', compact('carro'));
@@ -47,14 +44,20 @@ class CarroController extends Controller
 
     public function update(Request $request, Carro $carro)
     {
-        $request->validate([
-            'marca' => 'required|max:50',
-            'modelo' => 'required|max:50',
-            'ano' => 'required|digits:4'
-        ]);
+        $request->validate($this->regras());
 
         $carro->update($request->only(['marca', 'modelo', 'ano']));
         return redirect()->route('carros.index')->with('success', 'Carro atualizado!');
+    }
+
+
+    private function regras(): array
+    {
+        return [
+            'marca'  => 'required|string|min:2|max:50',
+            'modelo' => 'required|string|min:2|max:50',
+            'ano'    => 'required|integer|min:1886|max:' . date('Y'),
+        ];
     }
 
 

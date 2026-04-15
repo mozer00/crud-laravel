@@ -12,6 +12,6 @@ class CarroSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Carro::factory()->count(10)->create();
+        \App\Models\Carro::factory()->count(300)->create();
     }
 }

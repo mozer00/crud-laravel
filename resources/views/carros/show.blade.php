@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container mt-4">
+    <div>
 
         <h2>Detalhes do Carro</h2>
 
@@ -21,13 +21,15 @@
                     Editar
                 </a>
 
-                <form action="{{ route('carros.destroy', $carro->id) }}" method="POST" style="display:inline;">
+                <form
+                    action="{{ route('carros.destroy', $carro->id) }}"
+                    method="POST"
+                    style="display:inline;"
+                    onsubmit="return confirm('Tem certeza que deseja excluir este carro?')"
+                >
                     @csrf
                     @method('DELETE')
-
-                    <button type="submit" class="btn btn-danger">
-                        Deletar
-                    </button>
+                    <button type="submit" class="btn btn-danger">Deletar</button>
                 </form>
 
             </div>

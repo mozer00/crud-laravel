@@ -1,31 +1,30 @@
 <template>
-
     <div>
-        <input 
+        <input
             type="text"
             v-model="busca"
             class="form-control mb-3"
-            placeholder="Buscar"
-            />
+            placeholder="Buscar por marca, modelo ou ano..."
+        >
 
-        <table class="table table-striped table bordened">
+        <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <th @click="ordenar('marca')">Marca</th>
-                    <th @click="ordenar('modelo')">Modelo</th>
-                    <th @click="ordenar('ano')">Ano</th>
-                    <th>Ações</th>
+                    <th @click="ordenar('marca')" style="cursor:pointer">Marca</th>
+                    <th @click="ordenar('modelo')" style="cursor:pointer">Modelo</th>
+                    <th @click="ordenar('ano')" style="cursor:pointer">Ano</th>
+                    <th width="150">Ações</th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr v-for="carro in carrosFiltrados" :key="carro.id">
                     <td>{{ carro.marca }}</td>
                     <td>{{ carro.modelo }}</td>
-                    <td>{{ carro.marca }}</td>
+                    <td>{{ carro.ano }}</td>
                     <td class="d-flex gap-2">
                         <a :href="`/carros/${carro.id}`" class="btn btn-sm btn-info">Ver</a>
-                        <a :href="`/carros/${carro.id}/edit`" class="btn btn-sm btn-warning">Editar</a>
+                        <a :href="`/carros/${carro.id}/edit`" class="btn btn-sm btn-warning">Editar</a>                    
+                        <button @click="excluir(carro.id)" class="btn btn-sm btn-danger">Deletar</button>
                     </td>
                 </tr>
             </tbody>
@@ -73,6 +72,23 @@ export default {
                 this.coluna = col
                 this.asc = true
             }
+        },
+
+        excluir(id) {
+            if (!confirm('Tem certeza que deseja excluir este carro?')) return
+
+            fetch(`/carros/${id}`, {
+                method: 'POST',
+                redirect: 'manual',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: new URLSearchParams({
+                    _method: 'DELETE'
+                })
+            }).then(() => {
+                window.location.href = '/carros'
+            })
         }
     }
 }
